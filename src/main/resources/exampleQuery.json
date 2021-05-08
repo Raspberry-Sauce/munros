@@ -1,0 +1,18 @@
+{
+  "query": {
+    "Category": "true",
+    "SortByHeight": {
+      "Method": "Ascending"
+    },
+    "Alphabetically": {
+      "Method": "Ascending"
+    },
+    "Top": {
+      "Value": "15"
+    },
+    "LimitByHeight": {
+      "Method": "Min",
+      "Value": "1028"
+    }
+  }
+}
