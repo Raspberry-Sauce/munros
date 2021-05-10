@@ -3,7 +3,7 @@ package com.filter.munros.models;
 public class Munro {
 
   private String name;
-  private String height;
+  private float height;
   private String hillCategory;
   private String gridReference;
 
@@ -15,11 +15,11 @@ public class Munro {
     this.name = name;
   }
 
-  public String getHeight() {
+  public float getHeight() {
     return height;
   }
 
-  public void setHeight(String height) {
+  public void setHeight(float height) {
     this.height = height;
   }
 

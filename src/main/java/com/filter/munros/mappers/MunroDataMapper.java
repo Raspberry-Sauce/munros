@@ -12,23 +12,27 @@ import java.util.List;
 
 public class MunroDataMapper {
 
+  private static final String EMPTY_STRING = "";
+
   public List<Munro> retrieveMunroData() {
 
     List<Munro> listOfMunros = new ArrayList<>();
       try (CSVReader csvReader = new CSVReader(new FileReader("/Users/din06/IdeaProjects/munros/src/main/resources/munrotab_v6.2.csv"));) {
-        String[] values = null;
-        while ((values = csvReader.readNext()) != null) {
-          Munro munro = new Munro();
-          munro.setName(values[5]);
-          munro.setHeight(values[9]);
-          munro.setHillCategory(values[27]);
-          munro.setGridReference(values[13]);
-          listOfMunros.add(munro);
+        String[] munroRecord = null;
+        csvReader.readNext();
+        while ((munroRecord = csvReader.readNext()) != null) {
+          if (munroRecord[0] != null && !munroRecord[0].equals(EMPTY_STRING)){
+            Munro munro = new Munro();
+            munro.setName(munroRecord[5]);
+            munro.setHeight(Float.valueOf(munroRecord[9]));
+            munro.setHillCategory(munroRecord[27]);
+            munro.setGridReference(munroRecord[13]);
+            listOfMunros.add(munro);
+          }
         }
     } catch (IOException | CsvValidationException e) {
         e.printStackTrace();
       }
-    listOfMunros.remove(0);
     return listOfMunros;
   }
 }
