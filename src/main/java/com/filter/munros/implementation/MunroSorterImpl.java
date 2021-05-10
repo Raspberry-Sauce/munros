@@ -3,11 +3,7 @@ package com.filter.munros.implementation;
 import com.filter.munros.models.MunroQuery;
 import com.filter.munros.models.Munro;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
-
-
-@Component
 public class MunroSorterImpl {
 
   private static final String BY_CATEGORY = "byCategory";

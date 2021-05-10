@@ -3,16 +3,9 @@ package com.filter.munros.models;
 public class Munro {
 
   private String name;
-  private int height;
-  private String hillCategory; //may change
+  private String height;
+  private String hillCategory;
   private String gridReference;
-
-  public Munro(String name, int height, String hillCategory, String gridReference) {
-    this.name = name;
-    this.height = height;
-    this.hillCategory = hillCategory;
-    this.gridReference = gridReference;
-  }
 
   public String getName() {
     return name;
@@ -22,11 +15,11 @@ public class Munro {
     this.name = name;
   }
 
-  public int getHeight() {
+  public String getHeight() {
     return height;
   }
 
-  public void setHeight(int height) {
+  public void setHeight(String height) {
     this.height = height;
   }
 

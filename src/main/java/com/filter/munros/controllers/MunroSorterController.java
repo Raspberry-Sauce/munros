@@ -5,11 +5,9 @@ import com.filter.munros.mappers.MunroDataMapper;
 import com.filter.munros.models.MunroQuery;
 import com.filter.munros.models.Munro;
 import java.util.List;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Component
 @RequestMapping(path="/munro")
 public class MunroSorterController {
 
@@ -21,7 +19,7 @@ public class MunroSorterController {
   @ResponseBody
   public List<Munro>
   filterData(@RequestBody List<MunroQuery> query){
-    List<Munro> mappedMunroData = null; //TODO
+    List<Munro> mappedMunroData = munroDataMapper.retrieveMunroData();
     return munroSorter.filterOrSortMunroData(query, mappedMunroData);
   }
 
