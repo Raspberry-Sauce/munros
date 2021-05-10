@@ -17,6 +17,8 @@ public class MunroSorterImpl {
   private static final String MUNRO_TOP = "TOP";
   private static final String ASCENDING = "asc";
   private static final String DESCENDING = "desc";
+  public static final String MAXIMUM = "max";
+  public static final String MINIMUM = "min";
 
   public List<Munro> filterOrSortMunroData(List<MunroQuery> queries, List<Munro> munrosToSort){
 
@@ -116,7 +118,20 @@ public class MunroSorterImpl {
   }
 
   private List<Munro> filterByHeight(List<Munro> munrosToSort, String sortBy, int value) {
-    return null;
+    if (sortBy == null || (!sortBy.equals(MAXIMUM) && !sortBy.equals(MINIMUM))){
+      return null; //TODO InvalidQuery Exception
+    }
+    if (sortBy.equals(MAXIMUM)){
+      return munrosToSort
+          .stream()
+          .filter(f -> value >= f.getHeight())
+          .collect(Collectors.toList());
+    } else {
+      return munrosToSort
+          .stream()
+          .filter(f -> value <= f.getHeight())
+          .collect(Collectors.toList());
+    }
   }
 
 

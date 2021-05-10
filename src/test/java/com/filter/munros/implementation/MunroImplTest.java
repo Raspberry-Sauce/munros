@@ -132,7 +132,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByBeingBelowAProvidedHeight(){
+  void testToEnsureMunrosAreReturnedBelowOrEqualToAProvidedHeight(){
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -150,7 +150,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByBeingAboveAProvidedHeight(){
+  void testToEnsureMunrosAreReturnedAboveOrEqualToAProvidedHeight(){
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -163,9 +163,9 @@ class MunroImplTest {
     List<Munro> processedData = munroSorter.filterOrSortMunroData(queries, munrosToSort);
 
     assert (processedData.get(0).getName().equals(FIRST_MUNRO));
-    assert (processedData.get(1).getName().equals(THIRD_MUNRO));
-    assert (processedData.get(2).getName().equals(THIRD_MUNRO));
-    assert (processedData.size() == 2);
+    assert (processedData.get(1).getName().equals(SECOND_MUNRO));
+    assert (processedData.get(2).getName().equals(FOURTH_MUNRO));
+    assert (processedData.size() == 3);
 
   }
 
