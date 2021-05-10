@@ -40,7 +40,7 @@ public class MunroSorterImpl {
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(BY_TOP)){
-        munrosToSort = filterResults(munrosToSort, query.getValue()); //Value is positive integer which filters that many results
+        munrosToSort = filterResults(munrosToSort, query.getValue());
       }
     }
 
@@ -106,7 +106,13 @@ public class MunroSorterImpl {
   }
 
   private List<Munro> filterResults(List<Munro> munrosToSort, int value) {
-    return null;
+    if (value == 0) {
+      return null; //TODO InvalidQuery Exception
+    }
+    return munrosToSort
+        .stream()
+        .limit(value)
+        .collect(Collectors.toList());
   }
 
   private List<Munro> filterByHeight(List<Munro> munrosToSort, String sortBy, int value) {
