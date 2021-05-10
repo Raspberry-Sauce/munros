@@ -96,7 +96,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByAlphabeticallyDesecnding(){
+  void testToEnsureMunrosAreReturnedByAlphabeticallyDescending(){
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -107,8 +107,8 @@ class MunroImplTest {
     List<Munro> munrosToSort = getMunros();
     List<Munro> processedData = munroSorter.filterOrSortMunroData(queries, munrosToSort);
 
-    assert (processedData.get(0).getName().equals(FOURTH_MUNRO));
-    assert (processedData.get(3).getName().equals(SECOND_MUNRO));
+    assert (processedData.get(0).getName().equals(SECOND_MUNRO));
+    assert (processedData.get(3).getName().equals(FOURTH_MUNRO));
     assert (processedData.size() == 4);
 
   }

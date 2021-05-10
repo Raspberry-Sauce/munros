@@ -34,7 +34,7 @@ public class MunroSorterImpl {
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(ALPHABETICALLY)){
-        munrosToSort = sortAlphabetically(munrosToSort, query.getSortBy()); //sortBy asc or desc
+        munrosToSort = sortAlphabetically(munrosToSort, query.getSortBy());
       }
     }
 
@@ -88,9 +88,21 @@ public class MunroSorterImpl {
   }
 
 
-
   private List<Munro> sortAlphabetically(List<Munro> munrosToSort, String sortBy) {
-    return null;
+    if (sortBy == null || (!sortBy.equals(ASCENDING) && !sortBy.equals(DESCENDING))){
+      return null; //TODO InvalidQuery Exception
+    }
+    if (sortBy.equals(ASCENDING)){
+      return munrosToSort
+          .stream()
+          .sorted(Comparator.comparing(Munro::getName))
+          .collect(Collectors.toList());
+    } else {
+      return munrosToSort
+          .stream()
+          .sorted(Comparator.comparing(Munro::getName).reversed())
+          .collect(Collectors.toList());
+    }
   }
 
   private List<Munro> filterResults(List<Munro> munrosToSort, int value) {

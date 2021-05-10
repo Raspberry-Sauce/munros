@@ -1,5 +1,5 @@
 [
-  {"queryType":"byCategory", "sortBy": "munro"},
+  {"queryType":"byCategory", "sortBy": "MUN"},
   {"queryType":"sortByHeight", "sortBy": "asc"},
   {"queryType":"alphabetically", "sortBy": "desc"},
   {"queryType":"byTop", "value": "22"},
