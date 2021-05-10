@@ -1,18 +1,7 @@
-{
-  "query": {
-    "Category": "true",
-    "SortByHeight": {
-      "Method": "Ascending"
-    },
-    "Alphabetically": {
-      "Method": "Ascending"
-    },
-    "Top": {
-      "Value": "15"
-    },
-    "LimitByHeight": {
-      "Method": "Min",
-      "Value": "1028"
-    }
-  }
-}
+[
+  {"queryType":"byCategory", "sortBy": "munro"},
+  {"queryType":"sortByHeight", "sortBy": "asc"},
+  {"queryType":"alphabetically", "sortBy": "desc"},
+  {"queryType":"byTop", "value": "22"},
+  {"queryType":"filterByHeight", "sortBy": "max", "value": "28"}
+]
