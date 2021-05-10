@@ -3,6 +3,7 @@ package com.filter.munros.implementation;
 import com.filter.munros.models.MunroQuery;
 import com.filter.munros.models.Munro;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MunroSorterImpl {
 
@@ -11,12 +12,14 @@ public class MunroSorterImpl {
   private static final String ALPHABETICALLY = "alphabetically";
   private static final String BY_TOP = "byTop";
   private static final String FILTER_BY_HEIGHT = "filterByHeight";
+  public static final String MUNRO = "MUN";
+  public static final String MUNRO_TOP = "TOP";
 
   public List<Munro> filterOrSortMunroData(List<MunroQuery> queries, List<Munro> munrosToSort){
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(BY_CATEGORY)){
-        munrosToSort = sortDataByCategory(munrosToSort, query.getSortBy()); //sortBy Munro, Munro Top or null (both)
+        munrosToSort = sortDataByCategory(munrosToSort, query.getSortBy());
       }
     }
 
@@ -43,17 +46,32 @@ public class MunroSorterImpl {
         munrosToSort = filterByHeight(munrosToSort, query.getSortBy(), query.getValue()); //sortBy maximum or minimum, returning records below or above a height
       }
     }
-
-    return null;
-  }
-
-  private List<Munro> sortbyHeight(List<Munro> munrosToSort, String sortBy) {
-    return null;
+    return munrosToSort;
   }
 
   private List<Munro> sortDataByCategory(List<Munro> munrosToSort, String sortBy) {
-    return null;
+    if (sortBy != null && !sortBy.equals(MUNRO) && !sortBy.equals(MUNRO_TOP)){
+      return null; //TODO need to return exception here
+    }
+    if (sortBy != null){
+      return munrosToSort
+          .stream()
+          .filter(f -> sortBy.equals(f.getHillCategory()))
+          .collect(Collectors.toList());
+
+    } else {
+      return munrosToSort
+          .stream()
+          .filter(f -> MUNRO.equals(f.getHillCategory()) || MUNRO_TOP.equals(f.getHillCategory()) )
+          .collect(Collectors.toList());
+    }
   }
+
+  private List<Munro> sortbyHeight(List<Munro> munrosToSort, String sortBy) {
+  return null;
+  }
+
+
 
   private List<Munro> sortAlphabetically(List<Munro> munrosToSort, String sortBy) {
     return null;
