@@ -2,6 +2,7 @@ package com.filter.munros.implementation;
 
 import com.filter.munros.models.MunroQuery;
 import com.filter.munros.models.Munro;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,8 +13,10 @@ public class MunroSorterImpl {
   private static final String ALPHABETICALLY = "alphabetically";
   private static final String BY_TOP = "byTop";
   private static final String FILTER_BY_HEIGHT = "filterByHeight";
-  public static final String MUNRO = "MUN";
-  public static final String MUNRO_TOP = "TOP";
+  private static final String MUNRO = "MUN";
+  private static final String MUNRO_TOP = "TOP";
+  private static final String ASCENDING = "asc";
+  private static final String DESCENDING = "desc";
 
   public List<Munro> filterOrSortMunroData(List<MunroQuery> queries, List<Munro> munrosToSort){
 
@@ -25,7 +28,7 @@ public class MunroSorterImpl {
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(SORT_BY_HEIGHT)){
-        munrosToSort = sortbyHeight(munrosToSort, query.getSortBy()); //sortBy asc or desc
+        munrosToSort = sortbyHeight(munrosToSort, query.getSortBy());
       }
     }
 
@@ -51,7 +54,7 @@ public class MunroSorterImpl {
 
   private List<Munro> sortDataByCategory(List<Munro> munrosToSort, String sortBy) {
     if (sortBy != null && !sortBy.equals(MUNRO) && !sortBy.equals(MUNRO_TOP)){
-      return null; //TODO need to return exception here
+      return null; //TODO InvalidQuery Exception
     }
     if (sortBy != null){
       return munrosToSort
@@ -68,7 +71,20 @@ public class MunroSorterImpl {
   }
 
   private List<Munro> sortbyHeight(List<Munro> munrosToSort, String sortBy) {
-  return null;
+    if (sortBy == null || (!sortBy.equals(ASCENDING) && !sortBy.equals(DESCENDING))){
+      return null; //TODO InvalidQuery Exception
+    }
+    if (sortBy.equals(ASCENDING)){
+      return munrosToSort
+          .stream()
+          .sorted(Comparator.comparingDouble(Munro::getHeight))
+          .collect(Collectors.toList());
+    } else {
+      return munrosToSort
+          .stream()
+          .sorted(Comparator.comparingDouble(Munro::getHeight).reversed())
+          .collect(Collectors.toList());
+    }
   }
 
 

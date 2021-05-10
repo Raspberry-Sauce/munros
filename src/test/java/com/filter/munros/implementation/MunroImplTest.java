@@ -55,7 +55,7 @@ class MunroImplTest {
     List<Munro> munrosToSort = getMunros();
     List<Munro> processedData = munroSorter.filterOrSortMunroData(queries, munrosToSort);
 
-    assert (processedData.get(0).getName().equals(SECOND_MUNRO));
+    assert (processedData.get(0).getName().equals(THIRD_MUNRO));
     assert (processedData.get(3).getName().equals(FOURTH_MUNRO));
     assert (processedData.size() == 4);
 
@@ -74,7 +74,7 @@ class MunroImplTest {
     List<Munro> processedData = munroSorter.filterOrSortMunroData(queries, munrosToSort);
 
     assert (processedData.get(0).getName().equals(FOURTH_MUNRO));
-    assert (processedData.get(3).getName().equals(SECOND_MUNRO));
+    assert (processedData.get(3).getName().equals(THIRD_MUNRO));
     assert (processedData.size() == 4);
   }
 
@@ -184,24 +184,24 @@ class MunroImplTest {
     Munro firstMunro = new Munro();
     firstMunro.setName(FIRST_MUNRO);
     firstMunro.setHillCategory(MUN);
-    firstMunro.setHeight("1000");
+    firstMunro.setHeight(1000);
     firstMunro.setGridReference(GRID_REFERENCE);
 
     Munro secondMunro = new Munro();
     secondMunro.setName(SECOND_MUNRO);
     secondMunro.setHillCategory(MUN);
-    secondMunro.setHeight("1300");
+    secondMunro.setHeight(1300);
     secondMunro.setGridReference(GRID_REFERENCE);
 
     Munro thirdMunro = new Munro();
     thirdMunro.setName(THIRD_MUNRO);
     thirdMunro.setHillCategory(TOP);
-    thirdMunro.setHeight("900");
+    thirdMunro.setHeight(900);
     thirdMunro.setGridReference(GRID_REFERENCE);
 
     Munro fourthMunro = new Munro();
     fourthMunro.setName(FOURTH_MUNRO);
-    fourthMunro.setHeight("1500");
+    fourthMunro.setHeight(1500);
     fourthMunro.setGridReference(GRID_REFERENCE);
 
     munrosToSort.add(firstMunro);
