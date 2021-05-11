@@ -1,5 +1,7 @@
 package com.filter.munros.implementation;
 
+import com.filter.munros.exceptions.InvalidHeightException;
+import com.filter.munros.exceptions.InvalidQueryException;
 import com.filter.munros.models.Munro;
 import com.filter.munros.models.MunroQuery;
 import java.util.ArrayList;
@@ -24,9 +26,10 @@ class MunroImplTest {
   private static final String FILTER_BY_HEIGHT = "filterByHeight";
   private static final String MAXIMUM = "max";
   private static final String MINIMUM = "min";
+  private static final String RANDOM_STRING = "Random String";
 
   @Test
-  void testToEnsureMunrosAreReturnedByCategory(){
+  void testToEnsureMunrosAreReturnedByCategory() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -44,7 +47,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByHeightAscending(){
+  void testToEnsureMunrosAreReturnedByHeightAscending() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -62,7 +65,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByHeightDescending(){
+  void testToEnsureMunrosAreReturnedByHeightDescending() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -79,12 +82,12 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByAlphabeticallyAscending(){
+  void testToEnsureMunrosAreReturnedByAlphabeticallyAscending() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
     query.setQueryType(ALPHABETICALLY);
-    query.setSortBy("asc");
+    query.setSortBy(ASCENDING);
     queries.add(query);
 
     List<Munro> munrosToSort = getMunros();
@@ -96,7 +99,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedByAlphabeticallyDescending(){
+  void testToEnsureMunrosAreReturnedByAlphabeticallyDescending() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -114,7 +117,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureOnlyTheFirst2MunrosAreReturned(){
+  void testToEnsureOnlyTheFirst2MunrosAreReturned() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -132,7 +135,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedBelowOrEqualToAProvidedHeight(){
+  void testToEnsureMunrosAreReturnedBelowOrEqualToAProvidedHeight() throws Exception{
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -150,7 +153,7 @@ class MunroImplTest {
   }
 
   @Test
-  void testToEnsureMunrosAreReturnedAboveOrEqualToAProvidedHeight(){
+  void testToEnsureMunrosAreReturnedAboveOrEqualToAProvidedHeight() throws Exception {
     MunroSorterImpl munroSorter = new MunroSorterImpl();
     List<MunroQuery> queries = new ArrayList<>();
     MunroQuery query = new MunroQuery();
@@ -166,17 +169,43 @@ class MunroImplTest {
     assert (processedData.get(1).getName().equals(SECOND_MUNRO));
     assert (processedData.get(2).getName().equals(FOURTH_MUNRO));
     assert (processedData.size() == 3);
+  }
 
+  @Test()
+  void testInvalidHeightException() throws Exception {
+    MunroSorterImpl munroSorter = new MunroSorterImpl();
+    List<MunroQuery> queries = new ArrayList<>();
+    MunroQuery query = new MunroQuery();
+    query.setQueryType(FILTER_BY_HEIGHT);
+    query.setSortBy(MINIMUM);
+    query.setValue(200000);
+    queries.add(query);
+
+    List<Munro> munrosToSort = getMunros();
+    try {
+      munroSorter.filterOrSortMunroData(queries, munrosToSort);
+      assert (false);
+    } catch (InvalidHeightException error) {
+      assert (true);
+    }
   }
 
   @Test
-  void testInvalidHeightException(){
+  void testInvalidQueryException() throws Exception{
+    MunroSorterImpl munroSorter = new MunroSorterImpl();
+    List<MunroQuery> queries = new ArrayList<>();
+    MunroQuery query = new MunroQuery();
+    query.setQueryType(SORT_BY_CATEGORY);
+    query.setSortBy(RANDOM_STRING);
+    queries.add(query);
 
-  }
-
-  @Test
-  void testInvalidQueryException(){
-
+    List<Munro> munrosToSort = getMunros();
+    try {
+      munroSorter.filterOrSortMunroData(queries, munrosToSort);
+      assert (false);
+    } catch (InvalidQueryException error) {
+      assert (true);
+    }
   }
 
   private List<Munro> getMunros() {
@@ -210,9 +239,5 @@ class MunroImplTest {
     munrosToSort.add(fourthMunro);
     return munrosToSort;
   }
-
-
-
-
 
 }

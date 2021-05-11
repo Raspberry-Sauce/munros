@@ -1,5 +1,7 @@
 package com.filter.munros.implementation;
 
+import com.filter.munros.exceptions.InvalidHeightException;
+import com.filter.munros.exceptions.InvalidQueryException;
 import com.filter.munros.models.MunroQuery;
 import com.filter.munros.models.Munro;
 import java.util.Comparator;
@@ -17,10 +19,13 @@ public class MunroSorterImpl {
   private static final String MUNRO_TOP = "TOP";
   private static final String ASCENDING = "asc";
   private static final String DESCENDING = "desc";
-  public static final String MAXIMUM = "max";
-  public static final String MINIMUM = "min";
+  private static final String MAXIMUM = "max";
+  private static final String MINIMUM = "min";
+  private static final String INVALID_HEIGHT_EXCEPTION = "Invalid Height, No records returned";
+  private static final String INVALID_QUERY_EXCEPTION = "Invalid Parameter in Query";
 
-  public List<Munro> filterOrSortMunroData(List<MunroQuery> queries, List<Munro> munrosToSort){
+  public List<Munro> filterOrSortMunroData(List<MunroQuery> queries, List<Munro> munrosToSort)
+      throws Exception {
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(BY_CATEGORY)){
@@ -48,15 +53,18 @@ public class MunroSorterImpl {
 
     for (MunroQuery query : queries){
       if (query.getQueryType().equals(FILTER_BY_HEIGHT)){
-        munrosToSort = filterByHeight(munrosToSort, query.getSortBy(), query.getValue()); //sortBy maximum or minimum, returning records below or above a height
+        munrosToSort = filterByHeight(munrosToSort, query.getSortBy(), query.getValue());
+        if (munrosToSort.size() == 0) {
+          throw new InvalidHeightException(INVALID_HEIGHT_EXCEPTION);
+        }
       }
     }
     return munrosToSort;
   }
 
-  private List<Munro> sortDataByCategory(List<Munro> munrosToSort, String sortBy) {
+  private List<Munro> sortDataByCategory(List<Munro> munrosToSort, String sortBy) throws Exception {
     if (sortBy != null && !sortBy.equals(MUNRO) && !sortBy.equals(MUNRO_TOP)){
-      return null; //TODO InvalidQuery Exception
+      throw new InvalidQueryException(INVALID_QUERY_EXCEPTION);
     }
     if (sortBy != null){
       return munrosToSort
@@ -72,9 +80,9 @@ public class MunroSorterImpl {
     }
   }
 
-  private List<Munro> sortbyHeight(List<Munro> munrosToSort, String sortBy) {
+  private List<Munro> sortbyHeight(List<Munro> munrosToSort, String sortBy) throws Exception {
     if (sortBy == null || (!sortBy.equals(ASCENDING) && !sortBy.equals(DESCENDING))){
-      return null; //TODO InvalidQuery Exception
+      throw new InvalidQueryException(INVALID_QUERY_EXCEPTION);
     }
     if (sortBy.equals(ASCENDING)){
       return munrosToSort
@@ -90,9 +98,9 @@ public class MunroSorterImpl {
   }
 
 
-  private List<Munro> sortAlphabetically(List<Munro> munrosToSort, String sortBy) {
+  private List<Munro> sortAlphabetically(List<Munro> munrosToSort, String sortBy) throws Exception {
     if (sortBy == null || (!sortBy.equals(ASCENDING) && !sortBy.equals(DESCENDING))){
-      return null; //TODO InvalidQuery Exception
+      throw new InvalidQueryException(INVALID_QUERY_EXCEPTION);
     }
     if (sortBy.equals(ASCENDING)){
       return munrosToSort
@@ -107,9 +115,9 @@ public class MunroSorterImpl {
     }
   }
 
-  private List<Munro> filterResults(List<Munro> munrosToSort, int value) {
+  private List<Munro> filterResults(List<Munro> munrosToSort, int value) throws Exception {
     if (value == 0) {
-      return null; //TODO InvalidQuery Exception
+      throw new InvalidQueryException(INVALID_QUERY_EXCEPTION);
     }
     return munrosToSort
         .stream()
@@ -117,22 +125,20 @@ public class MunroSorterImpl {
         .collect(Collectors.toList());
   }
 
-  private List<Munro> filterByHeight(List<Munro> munrosToSort, String sortBy, int value) {
+  private List<Munro> filterByHeight(List<Munro> munrosToSort, String sortBy, int value) throws Exception {
     if (sortBy == null || (!sortBy.equals(MAXIMUM) && !sortBy.equals(MINIMUM))){
-      return null; //TODO InvalidQuery Exception
+      throw new InvalidQueryException(INVALID_QUERY_EXCEPTION);
     }
     if (sortBy.equals(MAXIMUM)){
-      return munrosToSort
-          .stream()
-          .filter(f -> value >= f.getHeight())
-          .collect(Collectors.toList());
+        return munrosToSort
+            .stream()
+            .filter(f -> value >= f.getHeight())
+            .collect(Collectors.toList());
     } else {
-      return munrosToSort
-          .stream()
-          .filter(f -> value <= f.getHeight())
-          .collect(Collectors.toList());
+        return munrosToSort
+            .stream()
+            .filter(f -> value <= f.getHeight())
+            .collect(Collectors.toList());
+      }
     }
   }
-
-
-}

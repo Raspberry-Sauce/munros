@@ -14,14 +14,12 @@ public class MunroSorterController {
   private MunroSorterImpl munroSorter = new MunroSorterImpl();
   private MunroDataMapper munroDataMapper = new MunroDataMapper();
 
-
   @PostMapping("/sortBy")
   @ResponseBody
   public List<Munro>
-  filterData(@RequestBody List<MunroQuery> query){
+  filterData(@RequestBody List<MunroQuery> query) throws Exception {
     List<Munro> mappedMunroData = munroDataMapper.retrieveMunroData();
     return munroSorter.filterOrSortMunroData(query, mappedMunroData);
   }
-
 
 }

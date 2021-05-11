@@ -13,11 +13,13 @@ import java.util.List;
 public class MunroDataMapper {
 
   private static final String EMPTY_STRING = "";
+  private static final String LOCAL_PATH_NAME = "/Users/din06/IdeaProjects/munros/src/main/resources/munrotab_v6.2.csv";
 
   public List<Munro> retrieveMunroData() {
 
     List<Munro> listOfMunros = new ArrayList<>();
-      try (CSVReader csvReader = new CSVReader(new FileReader("/Users/din06/IdeaProjects/munros/src/main/resources/munrotab_v6.2.csv"));) {
+      try (CSVReader csvReader = new CSVReader(new FileReader(
+          LOCAL_PATH_NAME));) {
         String[] munroRecord = null;
         csvReader.readNext();
         while ((munroRecord = csvReader.readNext()) != null) {
