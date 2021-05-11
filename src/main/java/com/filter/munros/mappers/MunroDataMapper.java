@@ -18,8 +18,7 @@ public class MunroDataMapper {
   public List<Munro> retrieveMunroData() {
 
     List<Munro> listOfMunros = new ArrayList<>();
-      try (CSVReader csvReader = new CSVReader(new FileReader(
-          LOCAL_PATH_NAME));) {
+      try (CSVReader csvReader = new CSVReader(new FileReader(LOCAL_PATH_NAME));) {
         String[] munroRecord = null;
         csvReader.readNext();
         while ((munroRecord = csvReader.readNext()) != null) {
